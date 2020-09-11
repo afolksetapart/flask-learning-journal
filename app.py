@@ -55,6 +55,21 @@ def login():
     return render_template('login.html', form=form)
 
 
+@app.route('/register')
+def register():
+    form = forms.RegistrationForm()
+    if form.validate_on_submit():
+        flash('Registration successful!')
+        models.User.make_user(
+            username=form.username.data,
+            email=form.email.data,
+            password=form.password.data
+
+        )
+        return redirect(url_for('index'))
+    return render_template('login.html', form=form)
+
+
 @app.route('/entries/<int:id>/edit')
 @login_required
 def edit_post(id):
