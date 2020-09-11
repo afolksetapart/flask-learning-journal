@@ -1,7 +1,9 @@
 from flask import Flask, g, render_template
 from flask_login import LoginManager, current_user, login_required
 
+import forms
 import models
+
 
 app = Flask(__name__)
 app.secret_key = '#^354635^#&#%^TEHGDEH^%Y3637tehgd'
@@ -44,9 +46,16 @@ def detail(id):
     return render_template('detail.html', entry=entry)
 
 
-@app.route('/new', methods=('GET', 'POST'))
+@app.route('/entries/<int:id>/edit')
 @login_required
-def new_post():
+def edit_post(id):
+    entry = models.Entry.get(models.Entry.id == id)
+    return render_template('edit.html', entry=entry)
+
+
+@app.route('/add', methods=('GET', 'POST'))
+@login_required
+def add_entry():
     form = forms.EntryForm()
     if form.validate_on_submit():
         new_post = models.Entry.create(
