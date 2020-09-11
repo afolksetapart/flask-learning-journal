@@ -1,6 +1,8 @@
 from flask_wtf import Form
 from wtforms import StringField, TextAreaField, IntegerField, PasswordField
-from wtforms.validators import DataRequired, Regexp, Email, Length, EqualTo
+from wtforms.validators import DataRequired, Regexp, Email, Length, EqualTo, ValidationError
+
+from models import User
 
 
 def check_for_username(form, field):

@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, flash
+from flask import Flask, g, render_template, flash, redirect, url_for
 from flask_login import LoginManager, current_user, login_required
 
 import forms
@@ -55,7 +55,7 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/register')
+@app.route('/register', methods=('GET', 'POST'))
 def register():
     form = forms.RegistrationForm()
     if form.validate_on_submit():
@@ -64,10 +64,9 @@ def register():
             username=form.username.data,
             email=form.email.data,
             password=form.password.data
-
         )
         return redirect(url_for('index'))
-    return render_template('login.html', form=form)
+    return render_template('register.html', form=form)
 
 
 @app.route('/entries/<int:id>/edit')

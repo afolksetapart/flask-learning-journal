@@ -14,11 +14,15 @@ class User(UserMixin, Model):
 
     @classmethod
     def make_user(cls, username, email, password):
-        cls.create(
-            username=username,
-            email=email,
-            password=generate_password_hash(password)
-        )
+        try:
+            with db.transaction():
+                cls.create(
+                    username=username,
+                    email=email,
+                    password=generate_password_hash(password)
+                )
+        except IntegrityError:
+            raise ValueError("Sorry! A user with that name already exists!")
 
     class Meta:
         database = db
