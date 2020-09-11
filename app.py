@@ -1,5 +1,5 @@
 from flask import Flask, g, render_template
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager, current_user, login_required
 
 import models
 
@@ -39,9 +39,24 @@ def index():
 
 
 @app.route('/entries/<int:id>')
-def entry(id):
+def detail(id):
     entry = models.Entry.get(models.Entry.id == id)
     return render_template('detail.html', entry=entry)
+
+
+@app.route('/new', methods=('GET', 'POST'))
+@login_required
+def new_post():
+    form = forms.EntryForm()
+    if form.validate_on_submit():
+        new_post = models.Entry.create(
+            title=form.title.data,
+            time_spent=form.time_spent.data,
+            learned=form.learned.data,
+            resources=form.resources.data
+        )
+        return redirect(url_for('detail', id=new_post.id))
+    return render_template('new.html', form=form)
 
 
 if __name__ == '__main__':
