@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, g
 from flask_login import LoginManager
 
 import models
@@ -17,6 +17,19 @@ def load_user(user_id):
         return models.User.get(models.User.id == user_id)
     except models.DoesNotExist:
         return None
+
+
+@app.before_request
+def before_request():
+    g.db = models.db
+    g.db.connect()
+    g.user = current_user
+
+
+@app.after_request
+def after_request(response):
+    g.db.close()
+    return response
 
 
 if __name__ == '__main__':
