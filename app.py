@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, flash
 from flask_login import LoginManager, current_user, login_required
 
 import forms
@@ -44,6 +44,15 @@ def index():
 def detail(id):
     entry = models.Entry.get(models.Entry.id == id)
     return render_template('detail.html', entry=entry)
+
+
+@app.route('/login')
+def login():
+    form = forms.LoginForm()
+    if form.validate_on_submit():
+        # validate credentials
+        return redirect(url_for('index'))
+    return render_template('login.html', form=form)
 
 
 @app.route('/entries/<int:id>/edit')
