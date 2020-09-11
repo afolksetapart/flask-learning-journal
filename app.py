@@ -1,5 +1,5 @@
-from flask import Flask, g
-from flask_login import LoginManager
+from flask import Flask, g, render_template
+from flask_login import LoginManager, current_user
 
 import models
 
@@ -30,6 +30,11 @@ def before_request():
 def after_request(response):
     g.db.close()
     return response
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
