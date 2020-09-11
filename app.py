@@ -33,8 +33,15 @@ def after_request(response):
 
 
 @app.route('/')
+@app.route('/entries')
 def index():
     return render_template('index.html')
+
+
+@app.route('/entries/<int:id>')
+def entry(id):
+    entry = models.Entry.get(models.Entry.id == id)
+    return render_template('detail.html', entry=entry)
 
 
 if __name__ == '__main__':
