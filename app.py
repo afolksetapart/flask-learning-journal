@@ -1,10 +1,11 @@
-from flask import Flask, g, render_template, flash, redirect, url_for
+from flask import Flask, g, render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, current_user, login_required
+from flask_bcrypt import check_password_hash
 
 import forms
 import models
 
-# TODO: Edit view, User Login, Logout, Login.HTML, update "Time Spent" on /new,
+# TODO: Update "Time Spent" on /new, display flashed messages, build HTML templates, associate users and posts
 
 app = Flask(__name__)
 app.secret_key = '#^354635^#&#%^TEHGDEH^%Y3637tehgd'
@@ -47,24 +48,6 @@ def detail(id):
     return render_template('detail.html', entry=entry)
 
 
-@app.route('/login')
-def login():
-    form = forms.LoginForm()
-    if form.validate_on_submit():
-        try:
-            user = models.User.get(models.User.username == form.username.data)
-        except models.DoesNotExist:
-            flash('Sorry! Your username or password is incorrect.')
-        else:
-            if check_password_hash(user.password, form.password.data):
-                login_user(user)
-                flash("Welcome back!")
-                return redirect(url_for('index'))
-            else:
-                flash('Sorry! Your username or password is incorrect.')
-    return render_template('login.html', form=form)
-
-
 @app.route('/register', methods=('GET', 'POST'))
 def register():
     form = forms.RegistrationForm()
@@ -79,15 +62,34 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/entries/<int:id>/edit')
-@login_required
-def edit_post(id):
-    entry = models.Entry.get(models.Entry.id == id)
-    return render_template('edit.html', entry=entry)
+@app.route('/login', methods=('GET', 'POST'))
+def login():
+    form = forms.LoginForm()
+    if form.validate_on_submit():
+        try:
+            user = models.User.get(models.User.username == form.username.data)
+        except models.DoesNotExist:
+            flash('Sorry! Your username or password is incorrect.')
+        else:
+            if check_password_hash(user.password, form.password.data):
+                login_user(user)
+                flash('Welcome back!')
+                return redirect(url_for('index'))
+            else:
+                flash('Sorry! Your username or password is incorrect.')
+    return render_template('login.html', form=form)
 
 
-@app.route('/new', methods=('GET', 'POST'))
-# @login_required
+@ app.route('/logout')
+@ login_required
+def logout():
+    logout_user()
+    flash('You\'ve been successfully logged out!')
+    return redirect(url_for('index'))
+
+
+@ app.route('/new', methods=('GET', 'POST'))
+@ login_required
 def add_entry():
     form = forms.EntryForm()
     if form.validate_on_submit():
@@ -101,11 +103,22 @@ def add_entry():
     return render_template('new.html', form=form)
 
 
+@ app.route('/entries/<int:id>/edit', methods=('GET', 'POST'))
+# @login_required
+def edit_post(id):
+    entry = models.Entry.get(models.Entry.id == id)
+    if request.method == 'POST':
+        entry.save()
+        redirect(url_for('detail', id=entry.id))
+    return render_template('edit.html', entry=entry)
+
+
 if __name__ == '__main__':
     models.initialize()
     models.Entry.create(
         title='My First Entry',
         time_spent=30,
-        learned='a whole lot!'
+        learned='a whole lot!',
+        resources='http://google.com,http://amtrappe.com'
     )
     app.run(debug=True)

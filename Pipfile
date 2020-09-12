@@ -14,6 +14,7 @@ wtforms = "*"
 flask-wtf = "*"
 flask-bcrypt = "*"
 email-validator = "*"
+beautifulsoup4 = "*"
 
 [requires]
 python_version = "3.7"
