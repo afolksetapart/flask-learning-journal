@@ -30,7 +30,7 @@ class EntryForm(Form):
 
 
 class LoginForm(Form):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
 
 

@@ -4,6 +4,7 @@ from flask_login import LoginManager, current_user, login_required
 import forms
 import models
 
+# TODO: Edit view, User Login, Logout, Login.HTML, update "Time Spent" on /new,
 
 app = Flask(__name__)
 app.secret_key = '#^354635^#&#%^TEHGDEH^%Y3637tehgd'
@@ -50,8 +51,17 @@ def detail(id):
 def login():
     form = forms.LoginForm()
     if form.validate_on_submit():
-        # validate credentials
-        return redirect(url_for('index'))
+        try:
+            user = models.User.get(models.User.username == form.username.data)
+        except models.DoesNotExist:
+            flash('Sorry! Your username or password is incorrect.')
+        else:
+            if check_password_hash(user.password, form.password.data):
+                login_user(user)
+                flash("Welcome back!")
+                return redirect(url_for('index'))
+            else:
+                flash('Sorry! Your username or password is incorrect.')
     return render_template('login.html', form=form)
 
 
@@ -76,8 +86,8 @@ def edit_post(id):
     return render_template('edit.html', entry=entry)
 
 
-@app.route('/add', methods=('GET', 'POST'))
-@login_required
+@app.route('/new', methods=('GET', 'POST'))
+# @login_required
 def add_entry():
     form = forms.EntryForm()
     if form.validate_on_submit():
