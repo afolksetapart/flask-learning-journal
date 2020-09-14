@@ -38,6 +38,15 @@ class Entry(Model):
     time_spent = IntegerField()
     learned = TextField()
     resources = TextField(default='')
+    tag_string = TextField(default='')
+
+    class Meta:
+        database = db
+
+
+class Tag(Model):
+    tag = CharField()
+    entry = ForeignKeyField(Entry, related_name='tags')
 
     class Meta:
         database = db
@@ -45,5 +54,5 @@ class Entry(Model):
 
 def initialize():
     db.connect()
-    db.create_tables([User, Entry], safe=True)
+    db.create_tables([User, Entry, Tag], safe=True)
     db.close()

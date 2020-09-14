@@ -6,6 +6,7 @@
     <div class='edit-entry'>
         <h2>Edit Entry</h2>
         <form method='POST' action="">
+            {{ form.hidden_tag() }}
             {% for field in form %}
                 {{ edit_field_render(field) }}
             {% endfor %}

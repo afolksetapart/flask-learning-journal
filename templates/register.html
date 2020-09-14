@@ -5,6 +5,7 @@
 <div class='register'>
     <h2>Register</h2></br>
     <form method='POST' action="">
+        {{ form.hidden_tag() }}
         {% for field in form %}
             {{ field_render(field) }}
         {% endfor %}

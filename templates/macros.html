@@ -4,7 +4,10 @@
             <div>{{ error }}</div>
         {% endfor %}
     {% endif %}
-    {{ field(placeholder=field.label.text) }}
+        {% if field.label.text != 'CSRF Token'%}
+            <h3>{{ field.label.text }}</h3>
+        {% endif %}
+    {{ field(placeholder=field.description) }}
 {% endmacro %}
 
 {% macro edit_field_render(field) %}

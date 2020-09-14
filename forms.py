@@ -21,6 +21,7 @@ class EntryForm(Form):
     title = StringField('Subject', validators=[DataRequired()])
     date = DateField(default=datetime.datetime.now)
     time_spent = StringField('Minutes Spent Learning',
+                             description='Please enter numeric values only',
                              validators=[DataRequired(),
                                          Regexp(
                                  r'^[0-9]+$',
@@ -29,7 +30,10 @@ class EntryForm(Form):
                                      'and only contain numbers 0-9'))])
     learned = TextAreaField('What did you learn?',
                             validators=[DataRequired()])
-    resources = TextAreaField('Resources')
+    resources = TextAreaField(
+        'Resources (Optional)', description='Please enter URLs separated by commas without spaces')
+    tag_string = StringField(
+        'Tags (Optional)', description='Please enter tags separated by commas without spaces')
 
 
 class LoginForm(Form):

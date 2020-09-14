@@ -5,9 +5,7 @@ from flask_bcrypt import check_password_hash
 import forms
 import models
 
-# TODO: display flashed messages, associate users and posts,
-# only let user edit own posts
-
+# TODO: dependencies file, credentials for first user, tags, regex links and tags formats, comments, fix edit page fields
 app = Flask(__name__)
 app.secret_key = '#^354635^#&#%^TEHGDEH^%Y3637tehgd'
 
@@ -102,8 +100,16 @@ def add_entry():
             user=g.user.id,
             time_spent=form.time_spent.data,
             learned=form.learned.data,
-            resources=form.resources.data
+            resources=form.resources.data,
+            tag_string=form.tag_string.data
         )
+        tags = form.tag_string.data.split(',')
+        for tag in tags:
+            if tag != '':
+                models.Tag.create(
+                    tag=tag,
+                    entry=new_post
+                )
         return redirect(url_for('detail', id=new_post.id))
     return render_template('new.html', form=form)
 
@@ -115,6 +121,11 @@ def edit_post(id):
     if g.user == entry.user:
         form = forms.EntryForm(obj=entry)
         if form.validate_on_submit():
+            tags = form.tag_string.data.split(',')
+            for tag in tags:
+                if tag != '':
+                    tag, created = models.Tag.get_or_create(
+                        tag=tag, entry=entry)
             form.populate_obj(entry)
             entry.save()
             flash('Entery successfully saved!')
