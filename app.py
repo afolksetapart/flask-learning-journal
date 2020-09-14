@@ -106,7 +106,7 @@ def add_entry():
 
 
 @ app.route('/entries/<int:id>/edit', methods=('GET', 'POST'))
-# @login_required
+@ login_required
 def edit_post(id):
     entry = models.Entry.get(models.Entry.id == id)
     form = forms.EntryForm(obj=entry)
@@ -115,6 +115,15 @@ def edit_post(id):
         entry.save()
         return redirect(url_for('detail', id=entry.id))
     return render_template('edit.html', form=form, entry=entry)
+
+
+@app.route('/entries/<int:id>/delete', methods=('GET', 'POST'))
+@ login_required
+def delete_post(id):
+    entry = models.Entry.get(models.Entry.id == id)
+    entry.delete_instance()
+    flash('Entry successfully deleted!')
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
