@@ -117,6 +117,7 @@ def edit_post(id):
         if form.validate_on_submit():
             form.populate_obj(entry)
             entry.save()
+            flash('Entery successfully saved!')
             return redirect(url_for('detail', id=entry.id))
     else:
         flash('Sorry! You don\'t have permission to edit this post!')
@@ -135,10 +136,4 @@ def delete_post(id):
 
 if __name__ == '__main__':
     models.initialize()
-    # models.Entry.create(
-    #     title='My First Entry',
-    #     time_spent=30,
-    #     learned='a whole lot!',
-    #     resources='http://google.com,http://amtrappe.com'
-    # )
     app.run(debug=True)
