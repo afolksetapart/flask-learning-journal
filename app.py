@@ -5,7 +5,8 @@ from flask_bcrypt import check_password_hash
 import forms
 import models
 
-# TODO: Update "Time Spent" on /new, display flashed messages, build HTML templates, associate users and posts
+# TODO: display flashed messages, associate users and posts,
+# only let user edit own posts
 
 app = Flask(__name__)
 app.secret_key = '#^354635^#&#%^TEHGDEH^%Y3637tehgd'
@@ -39,7 +40,8 @@ def after_request(response):
 @app.route('/')
 @app.route('/entries')
 def index():
-    return render_template('index.html')
+    posts = models.Entry.select()
+    return render_template('index.html', posts=posts)
 
 
 @app.route('/entries/<int:id>')
@@ -88,8 +90,8 @@ def logout():
     return redirect(url_for('index'))
 
 
-@ app.route('/new', methods=('GET', 'POST'))
-# @ login_required
+@ app.route('/entries/new', methods=('GET', 'POST'))
+@ login_required
 def add_entry():
     form = forms.EntryForm()
     if form.validate_on_submit():
@@ -112,7 +114,7 @@ def edit_post(id):
         form.populate_obj(entry)
         entry.save()
         return redirect(url_for('detail', id=entry.id))
-    return render_template('edit.html', form=form)
+    return render_template('edit.html', form=form, entry=entry)
 
 
 if __name__ == '__main__':

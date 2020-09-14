@@ -16,15 +16,17 @@
                 {{entry.learned}}
               </p>
             </div>
+            {% if entry.resources %}  
             <div class="entry">
               <h3>Resources to Remember:</h3>
               <ul>
-                {% set links = entry.resources.split(',') %}
-                {% for link in links %}
-                    <li><a href="{{ link }}">{{ link }}</a></li>
-                {% endfor %}
-              </ul>
+                    {% set links = entry.resources.split(',') %}
+                    {% for link in links %}
+                        <li><a href="{{ link }}">{{ link }}</a></li>
+                    {% endfor %}
+                </ul>
             </div>
+            {% endif %}
           </article>
         </div>
       </div>

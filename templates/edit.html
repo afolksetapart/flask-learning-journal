@@ -4,12 +4,13 @@
 {% block content %}
 <div class='container'>
     <div class='edit-entry'>
+        <h2>Edit Entry</h2>
         <form method='POST' action="">
             {% for field in form %}
                 {{ edit_field_render(field) }}
             {% endfor %}
-        <button type="submit" value="Publish Entry" class="button" />
-        <a href="#" class="button button-secondary">Cancel</a>
+        <input type="submit" value="Publish Entry" class="button" />
+        <a href="{{ url_for('detail', id=entry.id) }}" class="button button-secondary">Cancel</a>
         </form>
     </div>
 </div>

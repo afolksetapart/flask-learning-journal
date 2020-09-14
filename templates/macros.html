@@ -15,3 +15,10 @@
     {% endif %}
     {{ field }}
 {% endmacro %}
+
+{% macro render_post(post) %}
+    <article>
+        <h2><a href="{{ url_for('detail', id=post.id) }}">{{ post.title }}</a></h2>
+        <time datetime="{{ post.date }}">{{ post.date.strftime('%B %d %Y') }}</time>
+    </article>
+{% endmacro %}

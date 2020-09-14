@@ -1,5 +1,6 @@
 from flask_wtf import Form
-from wtforms import StringField, TextAreaField, IntegerField, PasswordField, DateTimeField
+from wtforms import StringField, TextAreaField, IntegerField, PasswordField
+from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Regexp, Email, Length, EqualTo, ValidationError
 
 from models import User
@@ -18,14 +19,14 @@ def check_for_email(form, field):
 
 class EntryForm(Form):
     title = StringField('Subject', validators=[DataRequired()])
-    date = DateTimeField(default=datetime.datetime.now)
-    time_spent = IntegerField('Minutes Spent Learning',
-                              validators=[DataRequired(),
-                                          Regexp(
-                                              r'^[0-9]+$',
-                                  message=(
-                                      'Time should be entered in minutes '
-                                      'and only contain numbers 0-9'))])
+    date = DateField(default=datetime.datetime.now)
+    time_spent = StringField('Minutes Spent Learning',
+                             validators=[DataRequired(),
+                                         Regexp(
+                                 r'^[0-9]+$',
+                                 message=(
+                                     'Time should be entered in minutes '
+                                     'and only contain numbers 0-9'))])
     learned = TextAreaField('What did you learn?',
                             validators=[DataRequired()])
     resources = TextAreaField('Resources')
