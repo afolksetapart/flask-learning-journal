@@ -6,3 +6,12 @@
     {% endif %}
     {{ field(placeholder=field.label.text) }}
 {% endmacro %}
+
+{% macro edit_field_render(field) %}
+    {% if field.errors %}
+        {% for error in field.errors %}
+            <div>{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+    {{ field }}
+{% endmacro %}

@@ -2,8 +2,8 @@
 {% from 'macros.html' import field_render %}
 
 {% block content %}
-<div class='container'>
-    <h2>Register</h2>
+<div class='register'>
+    <h2>Register</h2></br>
     <form method='POST' action="">
         {% for field in form %}
             {{ field_render(field) }}

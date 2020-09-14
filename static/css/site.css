@@ -130,6 +130,8 @@ ul li a {
 
 .entry-list,
 .edit-entry,
+.login,
+.register,
 .new-entry {
   max-width: 800px;
   margin: 0 auto;
@@ -182,9 +184,7 @@ form label {
   display: block;
   margin-bottom: 8px;
 }
-form input[type="text"],
-form input[type="password"],
-form input[type="date"],
+form input,
 form textarea {
   border: 2px solid #e1e1e1;
   font-size: 18px;

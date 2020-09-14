@@ -1,31 +1,16 @@
-{% extends "layout.html" %}
+{% extends 'layout.html' %}
+{% from 'macros.html' import edit_field_render %}
 
 {% block content %}
-      <div class="container">
-        <div class="edit-entry">
-          <h2>Edit Entry</h2>
-          <form>
-            <label for="title"> Title</label>
-            <input id="title" type="text" name="title" /><br />
-            <label for="date">Date</label>
-            <input id="date" type="date" name="date" /><br />
-            <label for="time-spent"> Time Spent</label>
-            <input id="time-spent" type="text" name="timeSpent" /><br />
-            <label for="what-i-learned">What I Learned</label>
-            <textarea
-              id="what-i-learned"
-              rows="5"
-              name="whatILearned"
-            ></textarea>
-            <label for="resources-to-remember">Resources to Remember</label>
-            <textarea
-              id="resources-to-remember"
-              rows="5"
-              name="ResourcesToRemember"
-            ></textarea>
-            <input type="submit" value="Publish Entry" class="button" />
-            <a href="#" class="button button-secondary">Cancel</a>
-          </form>
-        </div>
-      </div>
+<div class='container'>
+    <div class='edit-entry'>
+        <form method='POST' action="">
+            {% for field in form %}
+                {{ edit_field_render(field) }}
+            {% endfor %}
+        <button type="submit" value="Publish Entry" class="button" />
+        <a href="#" class="button button-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
 {% endblock %}

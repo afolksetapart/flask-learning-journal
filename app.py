@@ -1,5 +1,5 @@
 from flask import Flask, g, render_template, flash, redirect, url_for, request
-from flask_login import LoginManager, current_user, login_required
+from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from flask_bcrypt import check_password_hash
 
 import forms
@@ -89,7 +89,7 @@ def logout():
 
 
 @ app.route('/new', methods=('GET', 'POST'))
-@ login_required
+# @ login_required
 def add_entry():
     form = forms.EntryForm()
     if form.validate_on_submit():
@@ -107,10 +107,12 @@ def add_entry():
 # @login_required
 def edit_post(id):
     entry = models.Entry.get(models.Entry.id == id)
-    if request.method == 'POST':
+    form = forms.EntryForm(obj=entry)
+    if form.validate_on_submit():
+        form.populate_obj(entry)
         entry.save()
-        redirect(url_for('detail', id=entry.id))
-    return render_template('edit.html', entry=entry)
+        return redirect(url_for('detail', id=entry.id))
+    return render_template('edit.html', form=form)
 
 
 if __name__ == '__main__':

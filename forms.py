@@ -1,8 +1,9 @@
 from flask_wtf import Form
-from wtforms import StringField, TextAreaField, IntegerField, PasswordField
+from wtforms import StringField, TextAreaField, IntegerField, PasswordField, DateTimeField
 from wtforms.validators import DataRequired, Regexp, Email, Length, EqualTo, ValidationError
 
 from models import User
+import datetime
 
 
 def check_for_username(form, field):
@@ -17,6 +18,7 @@ def check_for_email(form, field):
 
 class EntryForm(Form):
     title = StringField('Subject', validators=[DataRequired()])
+    date = DateTimeField(default=datetime.datetime.now)
     time_spent = IntegerField('Minutes Spent Learning',
                               validators=[DataRequired(),
                                           Regexp(
