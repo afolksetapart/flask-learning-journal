@@ -17,9 +17,9 @@ login_manager.login_view = 'login'
 
 
 @login_manager.user_loader
-def load_user(user_id):
+def load_user(id):
     try:
-        return models.User.get(models.User.id == user_id)
+        return models.User.get(models.User.id == id)
     except models.DoesNotExist:
         return None
 
@@ -60,6 +60,8 @@ def register():
             email=form.email.data,
             password=form.password.data
         )
+        user = models.User.get(models.User.username == form.username.data)
+        login_user(user)
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
 
@@ -97,6 +99,7 @@ def add_entry():
     if form.validate_on_submit():
         new_post = models.Entry.create(
             title=form.title.data,
+            user=g.user.id,
             time_spent=form.time_spent.data,
             learned=form.learned.data,
             resources=form.resources.data
@@ -109,10 +112,14 @@ def add_entry():
 @ login_required
 def edit_post(id):
     entry = models.Entry.get(models.Entry.id == id)
-    form = forms.EntryForm(obj=entry)
-    if form.validate_on_submit():
-        form.populate_obj(entry)
-        entry.save()
+    if g.user == entry.user:
+        form = forms.EntryForm(obj=entry)
+        if form.validate_on_submit():
+            form.populate_obj(entry)
+            entry.save()
+            return redirect(url_for('detail', id=entry.id))
+    else:
+        flash('Sorry! You don\'t have permission to edit this post!')
         return redirect(url_for('detail', id=entry.id))
     return render_template('edit.html', form=form, entry=entry)
 
@@ -128,10 +135,10 @@ def delete_post(id):
 
 if __name__ == '__main__':
     models.initialize()
-    models.Entry.create(
-        title='My First Entry',
-        time_spent=30,
-        learned='a whole lot!',
-        resources='http://google.com,http://amtrappe.com'
-    )
+    # models.Entry.create(
+    #     title='My First Entry',
+    #     time_spent=30,
+    #     learned='a whole lot!',
+    #     resources='http://google.com,http://amtrappe.com'
+    # )
     app.run(debug=True)

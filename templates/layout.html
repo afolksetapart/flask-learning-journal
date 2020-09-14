@@ -28,9 +28,20 @@
           <a class="logo" href="{{ url_for('index') }}"
             ><i class="material-icons">library_books</i></a
           >
+          {% if current_user.is_authenticated %}
+          <a class="button icon-right" href="{{ url_for('logout') }}"
+          ><span>Logout</span> <i class="material-icons">logout</i></a
+        >
+          {% block new %}
           <a class="button icon-right" href="{{ url_for('add_entry') }}"
-            ><span>New Entry</span> <i class="material-icons">add</i></a
-          >
+          ><span>New Entry</span> <i class="material-icons">add</i></a
+        >
+          {% endblock %}
+          {% else %}
+          <a class="button icon-right" href="{{ url_for('login') }}"
+          ><span>Login</span> <i class="material-icons">login</i></a
+        >
+          {% endif %}
         </div>
       </div>
     </header>

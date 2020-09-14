@@ -54,6 +54,7 @@ footer {
 }
 .button.icon-right {
   padding-right: 30px;
+  margin-right: 10px;
   top: -10px;
 }
 .button.icon-left {

@@ -30,6 +30,10 @@ class User(UserMixin, Model):
 
 class Entry(Model):
     title = CharField()
+    user = ForeignKeyField(
+        User,
+        related_name='entries'
+    )
     date = DateTimeField(default=datetime.datetime.now)
     time_spent = IntegerField()
     learned = TextField()
