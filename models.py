@@ -3,6 +3,7 @@ import datetime
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash, check_password_hash
 from peewee import *
+from re import preg_replace
 
 db = SqliteDatabase('journal.db')
 
@@ -42,6 +43,14 @@ class Entry(Model):
 
     class Meta:
         database = db
+
+    def clean_tags(self):
+        clean_tag_string = preg_replace('/[^a-z0-9,]/i', '', self.tag_string)
+        self.tag_string = clean_tag_string
+
+    def remove_link_whitespace(self):
+        cln_string = self.resources.replace(" ", "")
+        self.resources = cln_string
 
 
 class Tag(Model):
