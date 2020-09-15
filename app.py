@@ -5,7 +5,7 @@ from flask_bcrypt import check_password_hash
 import forms
 import models
 
-# TODO: dependencies file, credentials for first user, comments, fix edit page fields, display tags
+# TODO: dependencies file, credentials for first user, comments, display tags, 404 error page
 app = Flask(__name__)
 app.secret_key = '#^354635^#&#%^TEHGDEH^%Y3637tehgd'
 
@@ -46,6 +46,12 @@ def index():
 def detail(id):
     entry = models.Entry.get(models.Entry.id == id)
     return render_template('detail.html', entry=entry)
+
+
+@app.route('/entries/tagged/<tag>')
+def tag_stream(tag):
+    posts = models.Entry.select().join(models.Tag).where(models.Tag.tag == tag)
+    return render_template('index.html', posts=posts)
 
 
 @app.route('/register', methods=('GET', 'POST'))

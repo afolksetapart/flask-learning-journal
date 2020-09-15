@@ -41,9 +41,10 @@ class EntryForm(Form):
         description=('Please enter tags separated '
                      'by commas without spaces'),
         validators=[Regexp(
-            r'^([a-zA-Z0-9_]+,?)*$',
+            r'^([a-zA-Z0-9]+,?)*$',
             message=('Please enter tags separated '
-                     'by commas without spaces'))])
+                     'by commas without spaces, '
+                     'only using alphanumeric characters'))])
 
 
 class LoginForm(Form):
