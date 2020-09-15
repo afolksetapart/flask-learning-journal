@@ -1,8 +1,9 @@
 import datetime
-import re
+
 
 from flask_login import UserMixin
-from flask_bcrypt import generate_password_hash, check_password_hash
+from flask_bcrypt import (generate_password_hash,
+                          check_password_hash)
 from peewee import *
 
 
@@ -24,7 +25,9 @@ class User(UserMixin, Model):
                     password=generate_password_hash(password)
                 )
         except IntegrityError:
-            raise ValueError("Sorry! A user with that name already exists!")
+            raise ValueError(
+                "Sorry! A user with that name already exists!"
+            )
 
     class Meta:
         database = db

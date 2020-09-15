@@ -78,7 +78,8 @@ class RegistrationForm(Form):
     ])
     password = PasswordField('Password', validators=[
         DataRequired(),
-        Length(min=8, message='Password must be at least 8 characters.'),
+        Length(min=8, message=('Password must be at least '
+                               '8 characters.')),
         EqualTo('password2', message='Passwords must match.')
     ])
     password2 = PasswordField('Confirm Password',

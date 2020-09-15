@@ -55,7 +55,9 @@ def detail(id):
 
 @app.route('/entries/tagged/<tag>')
 def tag_stream(tag):
-    posts = models.Entry.select().join(models.Tag).where(models.Tag.tag == tag)
+    posts = models.Entry.select().join(models.Tag).where(
+        models.Tag.tag == tag
+    )
     if posts.count() == 0:
         abort(404)
     else:
@@ -72,7 +74,9 @@ def register():
             email=form.email.data,
             password=form.password.data
         )
-        user = models.User.get(models.User.username == form.username.data)
+        user = models.User.get(
+            models.User.username == form.username.data
+        )
         login_user(user)
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
@@ -83,16 +87,26 @@ def login():
     form = forms.LoginForm()
     if form.validate_on_submit():
         try:
-            user = models.User.get(models.User.username == form.username.data)
+            user = models.User.get(
+                models.User.username == form.username.data
+            )
         except models.DoesNotExist:
-            flash('Sorry! Your username or password is incorrect.')
+            flash(
+                ('Sorry! Your username or '
+                 'password is incorrect.')
+            )
         else:
-            if check_password_hash(user.password, form.password.data):
+            if check_password_hash(
+                user.password, form.password.data
+            ):
                 login_user(user)
                 flash('Welcome back!')
                 return redirect(url_for('index'))
             else:
-                flash('Sorry! Your username or password is incorrect.')
+                flash(
+                    ('Sorry! Your username or '
+                     'password is incorrect.')
+                )
     return render_template('login.html', form=form)
 
 
@@ -138,7 +152,9 @@ def edit_post(id):
             for tag in string_tags:
                 tag, created = models.Tag.get_or_create(
                     tag=tag, entry=entry)
-            obj_tags = models.Tag.select().where(models.Tag.entry == entry)
+            obj_tags = models.Tag.select().where(
+                models.Tag.entry == entry
+            )
             for tag in obj_tags:
                 if tag.tag not in string_tags:
                     tag.delete_instance()
@@ -147,7 +163,9 @@ def edit_post(id):
             flash('Entery successfully saved!')
             return redirect(url_for('detail', id=entry.id))
     else:
-        flash('Sorry! You don\'t have permission to edit this post!')
+        flash(
+            'Sorry! You don\'t have permission to edit this post!'
+        )
         return redirect(url_for('detail', id=entry.id))
     return render_template('edit.html', form=form, entry=entry)
 
