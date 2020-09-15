@@ -20,14 +20,11 @@ def check_for_email(form, field):
 class EntryForm(Form):
     title = StringField('Subject', validators=[DataRequired()])
     date = DateField(default=datetime.datetime.now)
-    time_spent = StringField('Minutes Spent Learning',
-                             description='Please enter numeric values only',
-                             validators=[DataRequired(),
-                                         Regexp(
-                                 r'^[0-9]+$',
-                                 message=(
-                                     'Time should be entered in minutes '
-                                     'and only contain numbers 0-9'))])
+    time_spent = IntegerField('Minutes Spent Learning',
+                              description='Please enter numeric values only',
+                              validators=[DataRequired(
+                                  message="Please enter numeric values only"
+                              )])
     learned = TextAreaField('What did you learn?',
                             validators=[DataRequired()])
     resources = TextAreaField(
