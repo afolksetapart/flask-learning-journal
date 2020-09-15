@@ -10,6 +10,7 @@ import datetime
 
 
 def check_for_username(form, field):
+    """Checks database to see if username already exists"""
     if User.select().where(User.username == field.data).exists():
         raise ValidationError(
             'Sorry! That username is already taken.'
@@ -17,6 +18,7 @@ def check_for_username(form, field):
 
 
 def check_for_email(form, field):
+    """Checks database to see if email already exists"""
     if User.select().where(User.email == field.data).exists():
         raise ValidationError(
             'Sorry! That email is already in our system.'

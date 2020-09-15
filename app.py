@@ -7,7 +7,7 @@ from flask_bcrypt import check_password_hash
 import forms
 import models
 
-# TODO: dependencies file, credentials for first user, comments, pep8
+
 app = Flask(__name__)
 app.secret_key = '#^354635^#&#%^TEHGDEH^%Y3637tehgd'
 
@@ -26,6 +26,7 @@ def load_user(id):
 
 @app.before_request
 def before_request():
+    """Connect to database, define global variables before request"""
     g.db = models.db
     g.db.connect()
     g.user = current_user
@@ -33,6 +34,7 @@ def before_request():
 
 @app.after_request
 def after_request(response):
+    """Close database connection"""
     g.db.close()
     return response
 

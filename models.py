@@ -17,6 +17,7 @@ class User(UserMixin, Model):
 
     @classmethod
     def make_user(cls, username, email, password):
+        """Creates a new user"""
         try:
             with db.transaction():
                 cls.create(
