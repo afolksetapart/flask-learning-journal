@@ -39,7 +39,9 @@ class EntryForm(Form):
         description=('Please enter URLs separated '
                      'by commas without spaces'),
         validators=[
-            Regexp(r'^((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?,?)*$',
+            Regexp(r'^((http:\/\/www\.|https:\/\/www\.|http:\/\/'
+                   r'|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]'
+                   r'{2,5}(:[0-9]{1,5})?(\/.*)?,?)*$',
                    message=('Please enter URLs separated '
                             'by commas without spaces'))
         ])
