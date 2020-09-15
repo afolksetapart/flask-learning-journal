@@ -26,5 +26,10 @@
     <article>
         <h2><a href="{{ url_for('detail', id=post.id) }}">{{ post.title }}</a></h2>
         <time datetime="{{ post.date }}">{{ post.date.strftime('%B %d %Y') }}</time>
+        <div>tags: </div>
+        {% set tags = post.tag_string.split(',') %}
+        {% for string_tag in tags %}
+            <a href="{{ url_for('tag_stream', tag=string_tag) }}">{{ string_tag }}</a></br>
+        {% endfor %}
     </article>
 {% endmacro %}

@@ -27,6 +27,17 @@
                 </ul>
             </div>
             {% endif %}
+            {% if entry.tag_string %}
+            <div class="entry">
+                <h3>Tags:</h3>
+                <ul>
+                    {% set tags = entry.tag_string.split(',') %}
+                    {% for string_tag in tags %}
+                        <a href="{{ url_for('tag_stream', tag=string_tag) }}">{{ string_tag }}</a></br>
+                    {% endfor %}
+                  </ul>
+              </div>
+            {% endif %}
           </article>
         </div>
       </div>
