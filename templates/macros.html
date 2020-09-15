@@ -16,6 +16,9 @@
             <div>{{ error }}</div>
         {% endfor %}
     {% endif %}
+    {% if field.label.text != 'CSRF Token'%}
+            <h3>{{ field.label.text }}</h3>
+    {% endif %}
     {{ field }}
 {% endmacro %}
 

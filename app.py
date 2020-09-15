@@ -5,7 +5,7 @@ from flask_bcrypt import check_password_hash
 import forms
 import models
 
-# TODO: dependencies file, credentials for first user, tags, regex links and tags formats, comments, fix edit page fields
+# TODO: dependencies file, credentials for first user, comments, fix edit page fields, display tags
 app = Flask(__name__)
 app.secret_key = '#^354635^#&#%^TEHGDEH^%Y3637tehgd'
 
@@ -142,6 +142,9 @@ def edit_post(id):
 @ login_required
 def delete_post(id):
     entry = models.Entry.get(models.Entry.id == id)
+    tags = models.Tag.select().where(models.Tag.entry == entry)
+    for tag in tags:
+        tag.delete_instance()
     entry.delete_instance()
     flash('Entry successfully deleted!')
     return redirect(url_for('index'))
