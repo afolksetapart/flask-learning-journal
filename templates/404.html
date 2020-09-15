@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class='entry'>
+    <h1>404</h1>
+
+    <p>Sorry! That page doesn't exist.</p>
+
+    <h2><a href="{{ url_for('index') }}">Return home</a></h2>
+</div>
+{% endblock %}

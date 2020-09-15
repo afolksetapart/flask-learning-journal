@@ -1,11 +1,13 @@
-from flask import Flask, g, render_template, flash, redirect, url_for, request
-from flask_login import LoginManager, current_user, login_required, login_user, logout_user
+from flask import (Flask, g, render_template, flash,
+                   redirect, url_for, request, abort)
+from flask_login import (LoginManager, current_user,
+                         login_required, login_user, logout_user)
 from flask_bcrypt import check_password_hash
 
 import forms
 import models
 
-# TODO: dependencies file, credentials for first user, comments, display tags, 404 error page
+# TODO: dependencies file, credentials for first user, comments, pep8
 app = Flask(__name__)
 app.secret_key = '#^354635^#&#%^TEHGDEH^%Y3637tehgd'
 
@@ -44,14 +46,20 @@ def index():
 
 @app.route('/entries/<int:id>')
 def detail(id):
-    entry = models.Entry.get(models.Entry.id == id)
-    return render_template('detail.html', entry=entry)
+    try:
+        entry = models.Entry.get(models.Entry.id == id)
+        return render_template('detail.html', entry=entry)
+    except models.DoesNotExist:
+        abort(404)
 
 
 @app.route('/entries/tagged/<tag>')
 def tag_stream(tag):
     posts = models.Entry.select().join(models.Tag).where(models.Tag.tag == tag)
-    return render_template('index.html', posts=posts)
+    if posts.count() == 0:
+        abort(404)
+    else:
+        return render_template('index.html', posts=posts)
 
 
 @app.route('/register', methods=('GET', 'POST'))
@@ -154,6 +162,11 @@ def delete_post(id):
     entry.delete_instance()
     flash('Entry successfully deleted!')
     return redirect(url_for('index'))
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':

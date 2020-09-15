@@ -1,7 +1,9 @@
 from flask_wtf import Form
-from wtforms import StringField, TextAreaField, IntegerField, PasswordField
+from wtforms import (StringField, TextAreaField,
+                     IntegerField, PasswordField)
 from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired, Regexp, Email, Length, EqualTo, ValidationError
+from wtforms.validators import (DataRequired, Regexp, Email,
+                                Length, EqualTo, ValidationError)
 
 from models import User
 import datetime
@@ -9,22 +11,27 @@ import datetime
 
 def check_for_username(form, field):
     if User.select().where(User.username == field.data).exists():
-        raise ValidationError('Sorry! That username is already taken.')
+        raise ValidationError(
+            'Sorry! That username is already taken.'
+        )
 
 
 def check_for_email(form, field):
     if User.select().where(User.email == field.data).exists():
-        raise ValidationError('Sorry! That email is already in our system.')
+        raise ValidationError(
+            'Sorry! That email is already in our system.'
+        )
 
 
 class EntryForm(Form):
     title = StringField('Subject', validators=[DataRequired()])
     date = DateField(default=datetime.datetime.now)
-    time_spent = IntegerField('Minutes Spent Learning',
-                              description='Please enter numeric values only',
-                              validators=[DataRequired(
-                                  message="Please enter numeric values only"
-                              )])
+    time_spent = IntegerField(
+        'Minutes Spent Learning',
+        description='Please enter numeric values only',
+        validators=[DataRequired(
+            message="Please enter numeric values only"
+        )])
     learned = TextAreaField('What did you learn?',
                             validators=[DataRequired()])
     resources = TextAreaField(
@@ -74,4 +81,5 @@ class RegistrationForm(Form):
         Length(min=8, message='Password must be at least 8 characters.'),
         EqualTo('password2', message='Passwords must match.')
     ])
-    password2 = PasswordField('Confirm Password', validators=[DataRequired()])
+    password2 = PasswordField('Confirm Password',
+                              validators=[DataRequired()])
