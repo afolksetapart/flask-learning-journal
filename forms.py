@@ -30,11 +30,20 @@ class EntryForm(Form):
     resources = TextAreaField(
         'Resources (Optional)',
         description=('Please enter URLs separated '
-                     'by commas without spaces'))
+                     'by commas without spaces'),
+        validators=[
+            Regexp(r'^((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?,?)*$',
+                   message=('Please enter URLs separated '
+                            'by commas without spaces'))
+        ])
     tag_string = StringField(
         'Tags (Optional)',
         description=('Please enter tags separated '
-                     'by commas without spaces'))
+                     'by commas without spaces'),
+        validators=[Regexp(
+            r'^([a-zA-Z0-9_]+,?)*$',
+            message=('Please enter tags separated '
+                     'by commas without spaces'))])
 
 
 class LoginForm(Form):
