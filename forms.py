@@ -31,9 +31,13 @@ class EntryForm(Form):
     learned = TextAreaField('What did you learn?',
                             validators=[DataRequired()])
     resources = TextAreaField(
-        'Resources (Optional)', description='Please enter URLs separated by commas without spaces')
+        'Resources (Optional)',
+        description=('Please enter URLs separated '
+                     'by commas without spaces'))
     tag_string = StringField(
-        'Tags (Optional)', description='Please enter tags separated by commas without spaces')
+        'Tags (Optional)',
+        description=('Please enter tags separated '
+                     'by commas without spaces'))
 
 
 class LoginForm(Form):

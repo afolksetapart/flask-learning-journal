@@ -105,11 +105,10 @@ def add_entry():
         )
         tags = form.tag_string.data.split(',')
         for tag in tags:
-            if tag != '':
-                models.Tag.create(
-                    tag=tag,
-                    entry=new_post
-                )
+            models.Tag.create(
+                tag=tag,
+                entry=new_post
+            )
         return redirect(url_for('detail', id=new_post.id))
     return render_template('new.html', form=form)
 
@@ -121,11 +120,14 @@ def edit_post(id):
     if g.user == entry.user:
         form = forms.EntryForm(obj=entry)
         if form.validate_on_submit():
-            tags = form.tag_string.data.split(',')
-            for tag in tags:
-                if tag != '':
-                    tag, created = models.Tag.get_or_create(
-                        tag=tag, entry=entry)
+            string_tags = form.tag_string.data.split(',')
+            for tag in string_tags:
+                tag, created = models.Tag.get_or_create(
+                    tag=tag, entry=entry)
+            obj_tags = models.Tag.select().where(models.Tag.entry == entry)
+            for tag in obj_tags:
+                if tag.tag not in string_tags:
+                    tag.delete_instance()
             form.populate_obj(entry)
             entry.save()
             flash('Entery successfully saved!')
