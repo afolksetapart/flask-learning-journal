@@ -1,1 +1,1 @@
-web: gunicorn wsgi:flask_learning_journal_v3
+web: gunicorn wsgi.py
