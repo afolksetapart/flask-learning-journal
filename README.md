@@ -24,8 +24,8 @@ If you'd like, login with the following credentials to edit or delete the existi
 
 ## Built With
 
--Python
--Flask
--Peewee
--WTForms
--BCrypt
+- Python
+- Flask
+- Peewee
+- WTForms
+- BCrypt
