@@ -11,9 +11,9 @@ Learning Journal is a basic journal application that allows users to:
 
 ## In Use
 
-* This project requires you to have pipenv installed *
+*This project requires you to have pipenv installed*
 
-Install all project dependencies by navigating to the route directory running:
+Install all project dependencies by navigating to the route directory and running:
 ```
 pipenv install
 ```
