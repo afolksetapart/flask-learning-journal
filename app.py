@@ -26,7 +26,8 @@ def load_user(id):
 
 @app.before_request
 def before_request():
-    """Connect to database, define global variables before request"""
+    """Connect to database, define global 
+    variables before request"""
     g.db = models.db
     g.db.connect()
     g.user = current_user
@@ -191,4 +192,4 @@ def not_found(error):
 
 if __name__ == '__main__':
     models.initialize()
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
