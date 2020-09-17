@@ -23,7 +23,7 @@ Next, run **app.py** from the root directory with:
 $ python3 app.py
 ```
 
-The app will start a local server on **Port 5000**
+The app will start a local server on **https://localhost:5000**
 
 If you'd like, login with the following credentials to edit or delete the existing post:
 - username: test_user
