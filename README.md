@@ -11,7 +11,14 @@ Learning Journal is a basic journal application that allows users to:
 
 ## In Use
 
-Run **app.py** from the root directory with:
+* This project requires you to have pipenv installed *
+
+Install all project dependencies by navigating to the route directory running:
+```
+pipenv install
+```
+
+Next, run **app.py** from the root directory with:
 ```
 $ python3 app.py
 ```
